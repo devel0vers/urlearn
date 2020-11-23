@@ -1,0 +1,39 @@
+version: "3.7"
+
+networks:
+  internal:
+    external: false
+
+services:
+  # mysql 5.7
+  urlearn_mysql:
+    container_name: urlearn_mysql
+    image: mysql
+    restart: always
+    ports: 
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: urlearn_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./logs/mysql:/var/log/mysql
+      - ./config/mysql/mysql.cnf:/etc/mysql/mysql.cnf
+    networks:
+      - default
+
+  # phpmyadmin
+  urlearn_phpmyadmin:
+    container_name: urlearn_phpmyadmin
+    depends_on:
+       - urlearn_mysql
+    image: phpmyadmin/phpmyadmin:latest
+    restart: 'no'
+    environment:
+      PMA_HOST: urlearn_mysql
+      PMA_PORT: 3306
+      PMA_ABSOLUTE_URI: /phpmyadmin
+    networks:
+      - internal
