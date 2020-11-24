@@ -14,23 +14,25 @@ services:
       - "3307:3306"
     environment:
       MYSQL_DATABASE: urlearn_db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_USER: develover
+      MYSQL_PASSWORD: develover
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./logs/mysql:/var/log/mysql
       - ./config/mysql/mysql.cnf:/etc/mysql/mysql.cnf
     networks:
-      - default
+      - internal
 
   # phpmyadmin
   urlearn_phpmyadmin:
     container_name: urlearn_phpmyadmin
     depends_on:
-       - urlearn_mysql
+      - urlearn_mysql
     image: phpmyadmin/phpmyadmin:latest
-    restart: 'no'
+    restart: 'always'
+    ports:
+      - '8080:80'
     environment:
       PMA_HOST: urlearn_mysql
       PMA_PORT: 3306
