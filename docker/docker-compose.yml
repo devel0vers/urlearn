@@ -5,12 +5,12 @@ networks:
     external: false
 
 services:
-  # php wirh apache2
+  # php with apache2
   urlearn_php:
     container_name: urlearn_php
     build: 
       context: ./docker/php
-    restart: always
+    restart: 'no'
     depends_on:
       - urlearn_mysql
     volumes: 
@@ -29,31 +29,29 @@ services:
     container_name: urlearn_mysql
     build: 
       context: ./docker/mysql
-    restart: always
+    restart: 'no'
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./logs/mysql:/var/log/mysql
       - ./config/mysql/mysql.cnf:/etc/mysql/mysql.cnf
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: urlearn_db
       MYSQL_USER: develover
       MYSQL_PASSWORD: develover
-      MYSQL_ROOT_PASSWORD: root
     ports: 
-      - "127.0.0.1:3307:3306"
+      - "127.0.0.1:3376:3306"
     networks:
       - internal
 
   # phpmyadmin
   urlearn_phpmyadmin:
     container_name: urlearn_phpmyadmin
-    image: phpmyadmin/phpmyadmin
-    restart: always
+    image: phpmyadmin/phpmyadmin:latest
+    restart: 'no'
     environment:
       PMA_HOST: urlearn_mysql
       PMA_PORT: 3306
       PMA_ABSOLUTE_URI: /phpmyadmin
-    ports:
-      - '8080:80'
     networks:
       - internal
