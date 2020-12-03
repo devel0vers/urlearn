@@ -3,7 +3,7 @@
 </script>
 
 <main>
-	<h1>Hello Hello {name}!</h1>
+	<h1>sHello Hello {name}!</h1>asd
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
 

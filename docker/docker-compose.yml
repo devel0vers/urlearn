@@ -60,8 +60,8 @@ services:
   urlearn_svelte:
     container_name: urlearn_svelte
     build: 
-      context: ./docker/svelte
+      context: ../
+      dockerfile: ./docker/docker/svelte/Dockerfile
     ports:
       - "127.0.0.1:5000:5000"
-    volumes: 
-      - ../:/var/www/urlearn
+  
