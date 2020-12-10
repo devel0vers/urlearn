@@ -1,67 +1,40 @@
 version: "3.7"
 
-networks:
-  internal:
-    external: false
-
 services:
-  # php with apache2
-  urlearn_php:
-    container_name: urlearn_php
-    build: 
-      context: ./docker/php
-    restart: 'no'
-    depends_on:
-      - urlearn_mysql
-    volumes: 
-      - ../:/var/www/urlearn
-      - ./config/apache2/site-enabled:/etc/apache2/sites-enabled
-      - ./config/apache2/apache2.conf:/etc/apache2/apache2.conf
-      - ./logs/apache2:/var/log/apache2
-      - ./config/php/php.development.ini:/usr/local/etc/php/php.ini
-    ports:
-      - "127.0.0.1:8076:80"
-    networks:
-      - internal
 
   # mysql 5.7
   urlearn_mysql:
     container_name: urlearn_mysql
-    build: 
-      context: ./docker/mysql
-    restart: 'no'
-    volumes:
-      - ./data/mysql:/var/lib/mysql
-      - ./logs/mysql:/var/log/mysql
-      - ./config/mysql/mysql.cnf:/etc/mysql/mysql.cnf
+    image: mysql:8.0
+    restart: 'always'
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: urlearn_db
       MYSQL_USER: develover
       MYSQL_PASSWORD: develover
     ports: 
-      - "127.0.0.1:3376:3306"
-    networks:
-      - internal
+      - "3376:3306"
 
   # phpmyadmin
   urlearn_phpmyadmin:
     container_name: urlearn_phpmyadmin
     image: phpmyadmin/phpmyadmin:latest
-    restart: 'no'
-    environment:
+    depends_on:
+       - urlearn_mysql
+    restart: 'always'
+    ports: 
+      - '8080:80'
+    environment: 
       PMA_HOST: urlearn_mysql
-      PMA_PORT: 3306
-      PMA_ABSOLUTE_URI: /phpmyadmin
-    networks:
-      - internal
 
   #svelte
-  urlearn_svelte:
-    container_name: urlearn_svelte
-    build: 
-      context: ../
-      dockerfile: ./docker/docker/svelte/Dockerfile
-    ports:
-      - "127.0.0.1:5000:5000"
+  # urlearn_svelte:
+  #   image: svelte-template:dev
+  #   container_name: urlearn_svelte
+  #   build: 
+  #     context: ../
+  #     dockerfile: ./docker/docker/svelte/Dockerfile
+  #   ports:
+  #     - "5000:5000"
+  #     - "35729:35729"
   
