@@ -1,12 +1,61 @@
 <script>
-	export let name;
+	import Modal from './Modal.svelte';
+
+	let firstName = 'Faizin';
+	let lastName = 'Kholiq';
+	let color = 'black';
+	let mugiwara = [
+		{ name: 'Luffy', color: 'red', title: 'captain', id: 1 },
+		{ name: 'Zoro', color: 'green', title: 'swordsman', id: 2 },
+		{ name: 'Sanji', color: 'black', title: 'chef', id: 3 },
+	];
+	let showModal = false;
+
+	$: fullName	= `${firstName} ${lastName}`;
+
+	const handleClick = () => {
+		if(color != 'orange'){
+			color = 'orange';
+		}else{
+			color = 'black'
+		}
+	}
+
+	const handleInput = (e) => {
+		color = e.target.value;
+	}
+
+	const deleteNakama = (id) => {
+		mugiwara = mugiwara.filter((nakama) => nakama.id != id);
+	}
+
+	const toggleModal = () => {
+		showModal = !showModal;
+	}
 </script>
 
+<Modal message="Hi, I am a modal" isPromo={false} {showModal} on:click={toggleModal}/>
 <main>
-	<h1>sHello Hello {name}!</h1>asd
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
+	<button on:click={toggleModal}>Open Modal</button>
+	<p style="color:{color}; font-weight:bold">{fullName} - {color}</p>
+	<!-- <button on:click={handleClick}>Change color</button> -->
+	<input type="text" bind:value={firstName}/>
+	<input type="text" bind:value={lastName}/>
+	<input type="text" bind:value={color}/>
 
+	{#each mugiwara as nakama}
+		<div>
+			<h4 style="color:{nakama.color}">{nakama.name}</h4>
+			{#if nakama.color === 'red'}
+				<strong>PIRATES KING</strong>
+			{/if}
+			<p>Title: {nakama.title}</p>
+			<button on:click = {() => deleteNakama(nakama.id)}> delete</button>
+		</div>
+	{:else} 
+		<p>No nakama joined</p>
+	{/each}
+</main>
 <style>
 	main {
 		text-align: center;

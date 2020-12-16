@@ -6,7 +6,7 @@ services:
   urlearn_mysql:
     container_name: urlearn_mysql
     image: mysql:8.0
-    restart: 'always'
+    restart: 'no'
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: urlearn_db
@@ -21,7 +21,7 @@ services:
     image: phpmyadmin/phpmyadmin:latest
     depends_on:
        - urlearn_mysql
-    restart: 'always'
+    restart: 'no'
     ports: 
       - '8080:80'
     environment: 
