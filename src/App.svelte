@@ -1,4 +1,9 @@
 <script>
+	// Event Modifier
+	// once - makes sure the event can only fire once (remove handler)
+	// preventDefault - prevent the default action (run e.preventDefault)
+	// self - only fires the event if the clicked element is the target
+
 	import Modal from './Modal.svelte';
 
 	let firstName = 'Faizin';
