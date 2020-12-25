@@ -5,6 +5,7 @@
 	// self - only fires the event if the clicked element is the target
 
 	import Modal from './Modal.svelte';
+	import NakamaForm from './NakamaForm.svelte'
 
 	let firstName = 'Faizin';
 	let lastName = 'Kholiq';
@@ -39,7 +40,10 @@
 	}
 </script>
 
-<Modal message="Hi, I am a modal" isPromo={false} {showModal} on:click={toggleModal}/>
+<Modal message="Hi, I am a modal" isPromo={false} {showModal} on:click={toggleModal}>
+	<div slot="title">Add a new nakama</div>
+	<NakamaForm />
+</Modal>
 <main>
 	<button on:click={toggleModal}>Open Modal</button>
 	<p style="color:{color}; font-weight:bold">{fullName} - {color}</p>

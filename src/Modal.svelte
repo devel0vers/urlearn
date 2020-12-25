@@ -5,9 +5,11 @@ export let showModal = false;
 </script>
 
 {#if showModal}
-<div class="backdrop" on:click>
+<div class="backdrop" on:click|self>
     <div class="modal" class:promo={isPromo}>
+        <slot name="title"></slot>
         <p>{message}</p>
+        <slot></slot>
     </div>
 </div>
 {/if}
